@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ro"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Teen Funds</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--dk:#5a3a6e;--pl:#9b4d78;--lv:#d9cde6;--lv2:#efe9f6;--pk:#f3c9cf;--cr:#dcc3b4;--bg:#f3f2f7;--tx:#3d2a4a;--sh:0 6px 20px rgba(90,58,110,.10)}
+*{box-sizing:border-box;margin:0}
+body{font-family:Poppins,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;display:flex}
+h1,h2,h3,.big{font-family:Anton,Oswald,Impact,sans-serif;font-weight:400;letter-spacing:.5px;text-transform:uppercase;color:var(--pl)}
+aside{width:220px;background:#fff;padding:22px 14px;position:sticky;top:0;height:100vh;box-shadow:var(--sh);display:flex;flex-direction:column;gap:6px;z-index:5}
+.logo{font-family:Anton;font-size:30px;color:var(--pl);text-align:center;margin-bottom:14px;line-height:1}
+.logo small{display:block;font-family:Poppins;font-size:10px;color:var(--dk);letter-spacing:0}
+nav{display:flex;flex-direction:column;gap:4px}
+nav button{border:0;background:none;text-align:left;padding:11px 14px;border-radius:14px;font:500 14px Poppins;color:var(--dk);cursor:pointer;transition:.2s}
+nav button:hover{background:var(--lv2)}nav button.on{background:var(--lv);color:var(--dk);font-weight:600}
+main{flex:1;padding:26px;max-width:1100px;margin:auto;width:100%}
+section{animation:up .4s ease}@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+h1{font-size:34px;margin-bottom:4px}h2{font-size:22px;margin:0 0 12px}h3{font-size:17px;margin-bottom:8px}
+.sub{color:#7d6a8c;font-size:14px;margin-bottom:18px}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-bottom:16px}
+.card{background:#fff;border-radius:22px;padding:20px;box-shadow:var(--sh)}
+.card.lv{background:var(--lv2)}.card.pk{background:#fbe9ec}
+.big{font-size:34px;color:var(--dk);display:block;animation:pop .5s}@keyframes pop{0%{transform:scale(.85);opacity:.4}100%{transform:scale(1)}}
+.lbl{font-size:12px;color:#7d6a8c;text-transform:uppercase;letter-spacing:1px}
+.bank{background:linear-gradient(135deg,#5a3a6e,#9b6fb5 55%,#f3c9cf);color:#fff;border-radius:26px;padding:26px;max-width:440px;box-shadow:0 14px 34px rgba(90,58,110,.35);margin-bottom:16px}
+.bank .big{color:#fff;font-size:40px}.bank .num{letter-spacing:3px;margin:22px 0 14px;font-size:17px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.btn{border:0;background:var(--dk);color:#fff;padding:11px 18px;border-radius:14px;font:500 14px Poppins;cursor:pointer;transition:.2s}
+.btn:hover{transform:translateY(-2px);background:var(--pl)}.btn.alt{background:var(--lv);color:var(--dk)}.btn.sm{padding:7px 12px;font-size:12px}
+.eye{background:rgba(255,255,255,.25);color:#fff;border:0;border-radius:10px;padding:6px 10px;cursor:pointer}
+input,select{width:100%;padding:11px 13px;border:1.5px solid var(--lv);border-radius:12px;font:14px Poppins;margin:5px 0 12px;background:#fff;color:var(--tx)}
+input:focus,select:focus{outline:0;border-color:var(--pl)}
+.tx{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--lv2)}
+.ic{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font-size:20px;flex:none}
+.tx div:nth-child(2){flex:1;font-size:14px}.tx small{color:#8a7899;display:block;font-size:12px}
+.pos{color:#4a8f6b;font-weight:600}.neg{color:var(--pl);font-weight:600}
+.bar{height:12px;background:var(--lv2);border-radius:8px;overflow:hidden;margin:8px 0}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--dk),var(--pk));border-radius:8px;transition:width .8s}
+.tip{background:var(--lv2);border-left:5px solid var(--pl);padding:12px 14px;border-radius:12px;margin-bottom:10px;font-size:14px}
+.mis{display:flex;align-items:center;gap:12px;padding:14px;border-radius:16px;background:var(--lv2);margin-bottom:10px}
+.mis.done{background:#e6f3ea;text-decoration:line-through;opacity:.8}.mis span{flex:1}
+.opt{display:block;width:100%;text-align:left;margin:6px 0;padding:12px;border:1.5px solid var(--lv);border-radius:12px;background:#fff;font:14px Poppins;cursor:pointer}
+.opt.ok{background:#e6f3ea;border-color:#4a8f6b}.opt.bad{background:#fbe0e4;border-color:var(--pl)}
+.badge{text-align:center;padding:16px;border-radius:18px;background:var(--lv2)}.badge.lock{filter:grayscale(1);opacity:.45}.badge b{font-size:34px;display:block}
+.sw{position:relative;width:48px;height:26px;background:var(--lv);border-radius:20px;border:0;cursor:pointer;transition:.3s}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.3s}.sw.on{background:var(--dk)}.sw.on::after{left:25px}
+#toast{position:fixed;top:16px;right:16px;display:flex;flex-direction:column;gap:8px;z-index:50}
+#toast div{background:var(--dk);color:#fff;padding:12px 18px;border-radius:14px;box-shadow:var(--sh);animation:up .3s;font-size:14px;max-width:300px}
+.modal{position:fixed;inset:0;background:rgba(60,35,80,.45);display:grid;place-items:center;z-index:40;padding:16px}
+.modal .card{width:100%;max-width:380px}
+canvas{max-height:260px}
+@media(max-width:800px){body{display:block}
+aside{position:fixed;top:auto;bottom:0;width:100%;height:auto;flex-direction:row;padding:6px;z-index:20}.logo{display:none}
+nav{flex-direction:row;overflow-x:auto;width:100%}nav button{white-space:nowrap;padding:10px 12px;font-size:12px;text-align:center}
+main{padding:16px 14px 90px}h1{font-size:28px}.big{font-size:28px}}
+</style></head><body>
+<aside><div class="logo">TEEN FUNDS<small>Economisește. Joacă. Crește.</small></div><nav id="nav"></nav></aside>
+<main id="app"></main><div id="toast"></div>
+<script>
+const CATS={'Mâncare':['🍕','#f3c9cf'],'Transport':['🚌','#d9cde6'],'Divertisment':['🎬','#e9b7c8'],'Cumpărături':['🛍️','#dcc3b4'],'Educație':['📚','#b9a3d6'],'Alte cheltuieli':['✨','#e6dff0']};
+const PAGES=[['dash','🏠 Acasă'],['bank','💳 Cont'],['tx','🧾 Tranzacții'],['stat','📊 Statistici'],['eco','🐷 Economii'],['grp','👥 Grup'],['mis','🎯 Misiuni'],['rew','🏆 Recompense']];
+const QUIZ=[['Ce înseamnă un buget?',['Un plan pentru venituri și cheltuieli','O cheltuială mare','Un tip de card'],0],['Care e primul pas al economisirii?',['Cumperi tot ce vrei','Pui deoparte o sumă înainte să cheltuiești','Aștepți reduceri'],1],['Ce este „Round-up”?',['Rotunjirea unei plăți și trimiterea diferenței în economii','Un impozit','O reducere la cinema'],0],['Diferența dintre nevoie și dorință:',['Nu există','Nevoia e necesară, dorința e opțională','Dorințele sunt mereu prioritare'],1]];
+const RIGHTS=[['📖 Reducere 10% la librărie (demo)',40],['☕ Cafea gratuită la cafenea (demo)',80],['🎟️ Reducere 15% la cinema (demo)',120]];
+const LV=['Începător','Economist','Strategist','Maestru','Legendă'];
+const pad=n=>String(n).padStart(2,'0'),iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const now=new Date(),ym=s=>s.slice(0,7),cm=ym(iso(now));
+const mk=(o,d)=>iso(new Date(now.getFullYear(),now.getMonth()+o,d));
+const money=n=>(+n).toLocaleString('ro-RO',{maximumFractionDigits:2})+' lei';
+const MN=['Ian','Feb','Mar','Apr','Mai','Iun','Iul','Aug','Sep','Oct','Nov','Dec'];
+const mlabel=m=>MN[+m.slice(5)-1];
+function def(){let id=0;const t=(o,d,type,cat,amt,desc)=>({id:id++,date:mk(o,d),type,cat,amt,desc});
+return{name:'Alex',avail:850,saved:350,pts:20,qi:0,qc:0,ru:0,roundup:true,hide:false,
+goal:{name:'Excursie la munte',target:1000},
+tx:[t(0,9,'e','Mâncare',60,'Pizza cu prietenii'),t(0,8,'i','Venit',200,'Meditații'),t(0,7,'e','Divertisment',75,'Bowling'),t(0,6,'e','Cumpărături',70,'Tricou nou'),t(0,5,'e','Divertisment',45,'Cinema'),t(0,4,'e','Educație',30,'Caiete și pixuri'),t(0,3,'e','Transport',45,'Abonament autobuz'),t(0,2,'e','Mâncare',95,'Cantină și gustări'),t(0,1,'i','Venit',400,'Bani de buzunar'),
+t(-1,5,'e','Mâncare',140,'Mâncare'),t(-1,8,'e','Transport',45,'Abonament'),t(-1,12,'e','Divertisment',80,'Ieșiri'),t(-1,15,'e','Cumpărături',75,'Haine'),t(-1,20,'e','Educație',40,'Curs'),t(-1,1,'i','Venit',550,'Venituri'),
+t(-2,5,'e','Mâncare',150,'Mâncare'),t(-2,8,'e','Transport',45,'Abonament'),t(-2,12,'e','Divertisment',100,'Ieșiri'),t(-2,15,'e','Cumpărături',80,'Haine'),t(-2,20,'e','Educație',25,'Curs'),t(-2,1,'i','Venit',500,'Venituri')],
+hist:[{m:mk(-2,1).slice(0,7),v:150},{m:mk(-1,1).slice(0,7),v:240},{m:cm,v:350}],
+missions:[{t:'Economisește 10 lei astăzi',p:10},{t:'Evită o cheltuială inutilă',p:10},{t:'Pune deoparte 20 lei',p:15},{t:'Respectă bugetul stabilit',p:15}].map(m=>({...m,done:false})),
+groups:[{name:'Excursie în Brașov',target:1200,mem:[['Ana',300],['Mihai',250],['Alex',150],['Sara',100]]},{name:'Cadou pentru Maria',target:200,mem:[['Alex',40],['Ioana',60]]}],
+notifs:['Bun venit în Teen Funds! 🎉']}}
+let S;try{S=JSON.parse(localStorage.getItem('tf1'))}catch(e){}S=S||def();
+let P='dash',charts=[],quizDone=null;
+const store=()=>{try{localStorage.setItem('tf1',JSON.stringify(S))}catch(e){}};
+function toast(m){S.notifs.unshift(m);S.notifs=S.notifs.slice(0,6);const d=document.createElement('div');d.textContent=m;document.getElementById('toast').append(d);setTimeout(()=>d.remove(),3500)}
+function sv(){const h=S.hist;if(h.at(-1).m==cm)h.at(-1).v=S.saved;else h.push({m:cm,v:S.saved});
+if(S.saved>=S.goal.target&&!S.goalMsg){S.goalMsg=1;toast('🎯 Obiectiv atins: '+S.goal.name+'!')}else if(S.saved>=S.goal.target*.8&&S.saved<S.goal.target)toast('Ești aproape de obiectivul tău!')}
+function mon(m){const r={inc:0,exp:0,cat:{}};S.tx.filter(t=>ym(t.date)==m).forEach(t=>{if(t.type=='i')r.inc+=t.amt;else{r.exp+=t.amt;r.cat[t.cat]=(r.cat[t.cat]||0)+t.amt}});return r}
+function addTx(type,cat,amt,desc,date){amt=+amt;
+if(!(amt>0))return 'Introdu o sumă validă.';if(!desc.trim())return 'Adaugă o descriere.';if(!date)return 'Alege data.';
+if(type=='e'&&amt>S.avail)return 'Fonduri insuficiente.';
+S.tx.unshift({id:Date.now(),date,type,cat:type=='i'?'Venit':cat,amt,desc:desc.trim()});S.avail+=type=='i'?amt:-amt;
+if(type=='e'&&S.roundup){const r=Math.ceil(amt/5)*5-amt;if(r>0&&S.avail>=r){S.avail-=r;S.saved+=r;S.ru+=r;sv();toast('Ai economisit '+r+' lei prin Round-up.')}}
+store();return ''}
+function nav(){document.getElementById('nav').innerHTML=PAGES.map(p=>`<button class="${P==p[0]?'on':''}" onclick="go('${p[0]}')">${p[1]}</button>`).join('')}
+function go(p){P=p;render();scrollTo(0,0)}
+function txRow(t){const c=CATS[t.cat]||['💰','#d8efe0'];return`<div class="tx"><div class="ic" style="background:${c[1]}">${c[0]}</div><div>${t.desc}<small>${t.cat} · ${t.date}</small></div><b class="${t.type=='i'?'pos':'neg'}">${t.type=='i'?'+':'−'}${money(t.amt)}</b></div>`}
+const bal=v=>S.hide?'••••':money(v);
+function pDash(){const m=mon(cm),g=S.goal,pc=Math.min(100,S.saved/g.target*100);
+return`<h1>Salut, <span style="cursor:pointer" onclick="rename()">${S.name}</span>! 👋</h1><p class="sub">Bine ai revenit! Iată situația ta financiară.</p>
+<div class="grid"><div class="card"><span class="lbl">Sold disponibil</span><span class="big">${bal(S.avail)}</span></div><div class="card lv"><span class="lbl">Economisit</span><span class="big">${bal(S.saved)}</span></div><div class="card pk"><span class="lbl">Cheltuit luna aceasta</span><span class="big">${money(m.exp)}</span></div></div>
+<div class="card" style="margin-bottom:16px"><h3>Rezumat</h3><p>Luna aceasta ai câștigat <b>${money(m.inc)}</b> și ai cheltuit <b>${money(m.exp)}</b>. ${m.inc>=m.exp?`Ai rămas pe plus cu <b>${money(m.inc-m.exp)}</b> 👏`:'Cheltuielile depășesc veniturile — încearcă să reduci o categorie.'}</p></div>
+<div class="grid"><div class="card"><h3>Evoluția economiilor</h3><canvas id="cs"></canvas></div>
+<div class="card"><h3>Obiectiv activ: ${g.name}</h3><div class="bar"><i style="width:${pc}%"></i></div><p>${money(S.saved)} din ${money(g.target)} (${pc.toFixed(0)}%)</p><br><button class="btn alt sm" onclick="goal()">Schimbă obiectivul</button><br><br><h3>Notificări</h3>${S.notifs.slice(0,3).map(n=>`<div class="tip">${n}</div>`).join('')}</div></div>
+<div class="card"><h3>Ultimele tranzacții</h3>${S.tx.slice(0,4).map(txRow).join('')}</div>`}
+function pBank(){return`<h1>Contul meu</h1><p class="sub">Cont virtual demonstrativ — fără bani sau date reale.</p>
+<div class="bank"><div class="row"><b style="font-family:Anton;font-size:22px;letter-spacing:1px">TEEN FUNDS</b><button class="eye" onclick="S.hide=!S.hide;store();render()">${S.hide?'👁️ Arată':'🙈 Ascunde'}</button></div>
+<div class="num">4821 •••• •••• 0097</div><span class="lbl" style="color:#f3dfe8">Sold disponibil</span><span class="big">${bal(S.avail)}</span>
+<div class="row" style="margin-top:14px"><span>${S.name.toUpperCase()}</span><span>Exp. 12/29</span></div></div>
+<div class="card lv" style="max-width:440px;margin-bottom:16px"><span class="lbl">Economii</span><span class="big">${bal(S.saved)}</span></div>
+<div class="btns"><button class="btn" onclick="op('add')">＋ Adaugă bani</button><button class="btn" onclick="op('out')">− Retrage</button><button class="btn alt" onclick="op('toS')">→ Către economii</button><button class="btn alt" onclick="op('toA')">← Din economii</button></div>`}
+function pTx(){return`<h1>Tranzacții</h1><p class="sub">Adaugă venituri și cheltuieli; soldul se actualizează automat.</p>
+<div class="grid"><form class="card" id="f" onsubmit="return sub(event)"><h3>Tranzacție nouă</h3><label class="lbl">Tip</label><select id="ty" onchange="cat.disabled=this.value=='i'"><option value="e">Cheltuială</option><option value="i">Venit</option></select>
+<label class="lbl">Categorie</label><select id="cat">${Object.keys(CATS).map(c=>`<option>${CATS[c][0]} ${c}</option>`).join('')}</select>
+<label class="lbl">Sumă (lei)</label><input id="am" type="number" step="0.01" min="0"><label class="lbl">Descriere</label><input id="ds" maxlength="40"><label class="lbl">Data</label><input id="dt" type="date" value="${iso(now)}">
+<p id="er" class="neg" style="margin-bottom:8px"></p><button class="btn">Salvează</button></form>
+<div class="card"><h3>Istoric (${S.tx.length})</h3><div style="max-height:520px;overflow:auto">${S.tx.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(txRow).join('')}</div></div></div>`}
+function sub(e){e.preventDefault();const c=cat.value.replace(/^\S+\s/,''),er=addTx(ty.value,c,am.value,ds.value,dt.value);if(er){document.getElementById('er').textContent=er;return false}toast('Tranzacție adăugată ✔');render();return false}
+function pStat(){const a=mon(cm),top=Object.entries(a.cat).sort((x,y)=>y[1]-x[1])[0],tot=S.saved+S.avail;
+return`<h1>Statistici</h1><p class="sub">Graficele se actualizează odată cu tranzacțiile tale.</p>
+<div class="grid"><div class="card lv"><span class="lbl">Procent economisit</span><span class="big">${(S.saved/tot*100).toFixed(0)}%</span><small>din totalul banilor tăi</small></div><div class="card pk"><span class="lbl">Cheltui cel mai mult la</span><span class="big" style="font-size:26px">${top?CATS[top[0]][0]+' '+top[0]:'—'}</span><small>${top?money(top[1]):''}</small></div></div>
+<div class="grid"><div class="card"><h3>Economii în timp</h3><canvas id="cs"></canvas></div><div class="card"><h3>Cheltuieli pe categorii</h3><canvas id="cc"></canvas></div>
+<div class="card"><h3>Venituri vs. cheltuieli</h3><canvas id="ci"></canvas></div><div class="card"><h3>Evoluția soldului lunar</h3><canvas id="cb"></canvas></div></div>`}
+function pEco(){const a=mon(cm),b=mon(mk(-1,1).slice(0,7)),top=Object.entries(a.cat).sort((x,y)=>y[1]-x[1])[0],T=[];
+const dv=a.cat['Divertisment']||0;T.push(`Ai cheltuit <b>${money(dv)}</b> pe divertisment luna aceasta.`);
+if(dv>0)T.push(`Ai putea economisi <b>${money(Math.round(dv*.25))}</b> dacă reduci cu 25% cheltuielile din divertisment.`);
+if(top)T.push(`Cea mai mare parte a banilor tăi se duce către <b>${top[0].toLowerCase()}</b> (${money(top[1])}).`);
+const ra=a.inc?(a.inc-a.exp)/a.inc:0,rb=b.inc?(b.inc-b.exp)/b.inc:0;
+if(b.inc&&rb>0)T.push(ra>=rb?`Ai economisit cu <b>${((ra-rb)/rb*100).toFixed(0)}%</b> mai mult decât luna trecută.`:`Ai economisit cu <b>${((rb-ra)/rb*100).toFixed(0)}%</b> mai puțin decât luna trecută.`);
+const left=Math.max(0,S.goal.target-S.saved);T.push(left?`Dacă economisești 10 lei pe zi, vei ajunge la „${S.goal.name}” în aproximativ <b>${Math.ceil(left/10)} zile</b>.`:'Ai atins obiectivul! 🎉');
+return`<h1>Economii</h1><p class="sub">Recomandări calculate din tranzacțiile tale.</p>${T.map(t=>`<div class="tip">${t}</div>`).join('')}
+<div class="card lv" style="margin-top:18px"><div class="row"><h3>Round-up</h3><button class="sw ${S.roundup?'on':''}" onclick="S.roundup=!S.roundup;store();render()"></button></div>
+<p>Când plătești <b>17 lei</b>, aplicația rotunjește la <b>20 lei</b> și mută diferența de <b>3 lei</b> automat în economii.</p><p style="margin-top:8px">Total economisit prin Round-up: <b>${money(S.ru)}</b></p></div>`}
+function pGrp(){return`<h1>Pușculițe de grup</h1><p class="sub">Strângeți bani împreună pentru un scop comun (membri demonstrativi).</p>
+<div class="grid">${S.groups.map((g,i)=>{const s=g.mem.reduce((a,m)=>a+m[1],0),pc=Math.min(100,s/g.target*100);return`<div class="card"><h3>${g.name}</h3><div class="bar"><i style="width:${pc}%"></i></div><p><b>${money(s)}</b> / ${money(g.target)} (${pc.toFixed(0)}%)</p><div style="margin:10px 0">${g.mem.map(m=>`<div class="row" style="font-size:13px;padding:3px 0"><span>👤 ${m[0]}</span><b>${money(m[1])}</b></div>`).join('')}</div><div class="row"><input id="g${i}" type="number" min="1" placeholder="Lei" style="margin:0"><button class="btn sm" onclick="contrib(${i})">Contribuie</button></div></div>`}).join('')}
+<form class="card lv" onsubmit="return newG(event)"><h3>Pușculiță nouă</h3><label class="lbl">Obiectiv</label><input id="gn" maxlength="30" placeholder="ex: Bilete la festival"><label class="lbl">Sumă necesară (lei)</label><input id="gt" type="number" min="1"><p id="ge" class="neg"></p><button class="btn">Creează</button></form></div>`}
+function contrib(i){const v=+document.getElementById('g'+i).value;if(!(v>0)||v>S.avail)return toast('Sumă invalidă sau fonduri insuficiente.');const g=S.groups[i],m=g.mem.find(x=>x[0]==S.name)||(g.mem.push([S.name,0]),g.mem.at(-1));m[1]+=v;S.avail-=v;S.tx.unshift({id:Date.now(),date:iso(now),type:'e',cat:'Alte cheltuieli',amt:v,desc:'Contribuție: '+g.name});store();toast('Ai contribuit cu '+v+' lei 👥');render()}
+function newG(e){e.preventDefault();const n=gn.value.trim(),t=+gt.value;if(!n||!(t>0))return ge.textContent='Completează numele și suma.',false;S.groups.push({name:n,target:t,mem:[[S.name,0],['Prieten 1',0],['Prieten 2',0]]});store();render();return false}
+function pMis(){const q=QUIZ[S.qi%QUIZ.length];
+return`<h1>Misiuni zilnice</h1><p class="sub">Misiuni scurte care te ajută să construiești obiceiuri bune.</p>
+${S.missions.map((m,i)=>`<div class="mis ${m.done?'done':''}"><span>${m.done?'✅':'🎯'} ${m.t} <small>(+${m.p} puncte)</small></span>${m.done?'':`<button class="btn sm" onclick="done(${i})">Gata</button>`}</div>`).join('')}
+<div class="card lv" style="margin-top:20px"><h2>Mini-quiz financiar</h2><p style="margin-bottom:8px"><b>${q[0]}</b></p>${q[1].map((o,i)=>`<button class="opt ${quizDone!=null?(i==q[2]?'ok':i==quizDone?'bad':''):''}" ${quizDone!=null?'disabled':''} onclick="ans(${i})">${o}</button>`).join('')}${quizDone!=null?`<br><button class="btn" onclick="S.qi++;quizDone=null;store();render()">Următoarea întrebare →</button>`:''}</div>`}
+function done(i){const m=S.missions[i];m.done=true;S.pts+=m.p;store();toast('🎉 Felicitări! Ai completat o misiune financiară.');render()}
+function ans(i){const q=QUIZ[S.qi%QUIZ.length];quizDone=i;if(i==q[2]){S.pts+=10;S.qc++;toast('✅ Corect! +10 puncte bonus')}else toast('Mai încearcă la următoarea!');store();render()}
+function pRew(){const l=Math.floor(S.pts/40),B=[['🌱','Prima economie',S.saved>0],['🎯','Obiectiv atins',S.saved>=S.goal.target],['🔥','Economisire constantă',S.missions.filter(m=>m.done).length>=3],['🧠','Expert quiz',S.qc>=3],['🪙','Round-up activ',S.ru>0]];
+return`<h1>Recompense</h1><p class="sub">Strânge puncte, deblochează niveluri și insigne.</p>
+<div class="card pk" style="margin-bottom:16px"><span class="lbl">Nivel ${l+1}</span><span class="big">${LV[Math.min(l,4)]}</span><div class="bar"><i style="width:${S.pts%40/40*100}%"></i></div><small>${S.pts} puncte · ${40-S.pts%40} până la nivelul următor</small></div>
+<h2>Insigne</h2><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">${B.map(b=>`<div class="badge ${b[2]?'':'lock'}"><b>${b[0]}</b><small>${b[1]}</small></div>`).join('')}</div>
+<h2 style="margin-top:8px">Premii demonstrative (fictive)</h2>${RIGHTS.map(r=>`<div class="mis ${S.pts>=r[1]?'':'lock'}" style="${S.pts>=r[1]?'':'opacity:.5'}"><span>${r[0]}</span><b>${S.pts>=r[1]?'🔓 Deblocat':'🔒 '+r[1]+' puncte'}</b></div>`).join('')}`}
+function op(k){const T={add:'Adaugă bani',out:'Retrage bani',toS:'Mută în economii',toA:'Mută în sold'};
+const m=document.createElement('div');m.className='modal';m.innerHTML=`<form class="card"><h2>${T[k]}</h2><label class="lbl">Sumă (lei)</label><input id="ma" type="number" step="0.01" min="0" autofocus><p id="me" class="neg" style="margin-bottom:8px"></p><div class="row"><button type="button" class="btn alt" id="mc">Anulează</button><button class="btn">Confirmă</button></div></form>`;document.body.append(m);
+m.querySelector('#mc').onclick=()=>m.remove();
+m.querySelector('form').onsubmit=e=>{e.preventDefault();const v=+ma.value;let er='';if(!(v>0))er='Introdu o sumă validă.';
+else if(k=='add')er=addTx('i','Venit',v,'Depunere în cont',iso(now));
+else if(k=='out')er=addTx('e','Alte cheltuieli',v,'Retragere',iso(now));
+else if(k=='toS'){if(v>S.avail)er='Fonduri insuficiente.';else{S.avail-=v;S.saved+=v;sv()}}
+else{if(v>S.saved)er='Economii insuficiente.';else{S.saved-=v;S.avail+=v;sv()}}
+if(er)return me.textContent=er;store();m.remove();toast('Operațiune reușită ✔');render()}}
+function goal(){const n=prompt('Numele obiectivului:',S.goal.name);if(!n)return;const t=+prompt('Suma țintă (lei):',S.goal.target);if(!(t>0))return;S.goal={name:n,target:t};S.goalMsg=0;store();render()}
+function rename(){const n=prompt('Numele tău:',S.name);if(n&&n.trim()){S.name=n.trim();store();render()}}
+function charts_(){charts.forEach(c=>c.destroy());charts=[];const $=id=>document.getElementById(id),C=(id,cfg)=>$(id)&&charts.push(new Chart($(id),cfg)),
+dk='#7a5a95',pk='#f0a9b8',lv='#c9b8de',ms=[...new Set(S.tx.map(t=>ym(t.date)))].sort().slice(-4),mm=ms.map(mon);
+C('cs',{type:'line',data:{labels:S.hist.map(h=>mlabel(h.m)),datasets:[{label:'Economii (lei)',data:S.hist.map(h=>h.v),borderColor:dk,backgroundColor:'rgba(201,184,222,.4)',fill:true,tension:.4}]},options:{plugins:{legend:{display:false}}}});
+const a=mon(cm).cat,k=Object.keys(a);C('cc',{type:'doughnut',data:{labels:k,datasets:[{data:k.map(x=>a[x]),backgroundColor:k.map(x=>CATS[x][1]),borderColor:'#fff'}]},options:{plugins:{legend:{position:'bottom'}}}});
+C('ci',{type:'bar',data:{labels:ms.map(mlabel),datasets:[{label:'Venituri',data:mm.map(x=>x.inc),backgroundColor:lv,borderRadius:8},{label:'Cheltuieli',data:mm.map(x=>x.exp),backgroundColor:pk,borderRadius:8}]}});
+C('cb',{type:'line',data:{labels:ms.map(mlabel),datasets:[{label:'Venituri − cheltuieli',data:mm.map(x=>x.inc-x.exp),borderColor:'#9b4d78',backgroundColor:'rgba(243,201,207,.5)',fill:true,tension:.3}]}})}
+function render(){nav();document.getElementById('app').innerHTML='<section>'+({dash:pDash,bank:pBank,tx:pTx,stat:pStat,eco:pEco,grp:pGrp,mis:pMis,rew:pRew})[P]()+'</section>';
+if(window.Chart)charts_()}
+render();
+</script></body></html>
